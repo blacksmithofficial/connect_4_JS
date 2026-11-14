@@ -1,0 +1,132 @@
+	/* DEFAULT */
+body{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    /* border: 3px solid limegreen; */
+    height: 100vh;
+
+    background-color: black;
+
+}
+
+/* CLASSES */
+.menu{
+    height: 400px;
+    width: 500px;
+
+    border-radius: 5px;
+    /* border: 1px solid red; */
+
+    background-color: whitesmoke;
+
+}
+.menu_button{
+    width: 90px;
+    height: 50px;
+
+    border: 2px solid lightgrey;
+    border-radius: 5px;
+}
+.color_button{
+    height: 80px;
+    width: 80px;
+    margin: 3px;
+    border-radius: 100%;
+    border: 1px solid lightgray;
+
+    color: white;
+}
+.phase{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rack_space{
+    height: 98px;
+    width: 98px;
+
+    border: 1px solid blue;
+}
+
+/* IDS */
+#container{
+    height: 40rem;
+    width: 75vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid grey;
+    border-radius: 10px;
+
+    background-color: white;
+}
+#start_menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#phase_0{
+    /* border: 1px solid purple; */
+}
+#phase_1{
+    /* border: 1px solid orange; */
+}
+#user_name{
+    height: 45px;
+
+    border: 3px solid lightgrey;
+    border-radius: 5px;
+}
+
+#phase_2{
+    /* border: 1px solid greenyellow; */
+}
+#red{
+    background-color: crimson;
+}
+#gold{
+    background-color: gold;
+}
+
+#game{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 73vw;
+    height: 40rem;
+
+    /* border: 1px solid pink; */
+}
+#rack{
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 3px solid blue;
+}
+
+
+/* Pseudo Animations */
+#red:hover{
+    background-color: rgb(184, 7, 43);
+    /* background-color: rgb(123, 11, 34); */
+
+    border : 3px solid;
+    border-color: rgb(123, 11, 34);
+    border-color: rgb(231, 9, 54);
+    
+    color:  rgb(251, 19, 19);
+}
+#gold:hover{
+    background-color: goldenrod;
+
+    border: 3px solid;
+    border-color: gold;
+    color: gold;
+}
+

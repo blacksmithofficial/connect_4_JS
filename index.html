@@ -1,0 +1,77 @@
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Four</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Start Menu -->
+        <div id="start_menu" >
+            <div>
+                <h1>Connect Four</h1>
+
+                <!-- Phase 0 : Start Game -->
+                <div id="phase_0" class="phase" style="display: flex;">
+                    <button id="start_button" class="menu_button">Start Game</button>
+                </div>
+
+                <!-- Phase 1 : User Input -->
+                <div id="phase_1" class="phase" style="display: none;">
+                    <div>
+                        <label for="userinput">Enter Username</label><br><br>
+                        <input id="user_name" type="text" placeholder="username123" style="text-align: center;"><br><br>
+                        <button id="phase_1_button" class="menu_button">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Phase 2 : Color Picker -->
+                <div id="phase_2" class="phase" style="display: none;">
+                    <div>
+                        <label for="">Select Color</label><br><br>
+                        <div style="display: flex;">
+                            <button id="red" class="color_button">Red</button>
+                            <button id="gold" class="color_button">Gold</button>
+                        </div><br>
+                        <!-- <button id="phase_2_button" class="menu_button">Continue</button></div> -->
+                    </div><br>
+                <p>Developed By : Blacksmith</p>
+                </div>
+            </div>
+        </div>
+        <!-- Game  -->
+        <div id="game" style="display: none;">
+            <div>
+                <h1>Connect Four</h1>
+                <div id="rack">
+                    <div id="0" class="rack_space"></div>
+                    <div id="1" class="rack_space"></div>
+                    <div id="2" class="rack_space"></div>
+                    <div id="3" class="rack_space"></div>
+                    <div id="4" class="rack_space"></div>
+                    <div id="5" class="rack_space"></div>
+                    <div id="6" class="rack_space"></div>
+                    <div id="7" class="rack_space"></div>
+                    <div id="8" class="rack_space"></div>
+                    <div id="9" class="rack_space"></div>
+                    <div id="10" class="rack_space"></div>
+                    <div id="11" class="rack_space"></div>
+                    <div id="12" class="rack_space"></div>
+                    <div id="13" class="rack_space"></div>
+                    <div id="14" class="rack_space"></div>
+                    <div id="15" class="rack_space"></div>
+                </div>
+                <p>Developed by : Blacksmith</p>
+            </div>
+        </div>
+
+        <!-- Finish Menu -->
+        <div id="finish_menu" class="menu" style="display: none;">
+            <h1>Connect Four</h1>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
