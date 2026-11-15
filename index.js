@@ -42,60 +42,101 @@ gold.addEventListener("click", () => {
 })
 
 // [ Variables ] : In-Game
-const entry_points = [0, 1, 2, 3];
-let column_a_indexes = [0, 4, 8, 12];
-let column_b_indexes = [1, 5, 9, 13];
-let column_c_indexes = [2, 6, 10, 14];
-let column_d_indexes = [3, 7, 11, 15];
-let index_list = [column_a_indexes, column_b_indexes, column_c_indexes, column_d_indexes];
+let entry_points = [0, 1, 2, 3];
+let column_list = [[0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15]];
+let row_list = [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15]];
+let diagonal_list = [];
+let column_check = ["", "", "", ""];
+let row_check = ["", "", "", ""];
+let diagonal_check = ["", ""];
 
 let ref_list = ['','','','','','','','','','','','','','','',''];
 let connect_four = false;
+let game_over = false;
 
 // [ System ] : In-Game EventListeners
 for(let i = 0; i < 4; i++){
     rack.children[i].addEventListener("click", () => {
         drop(i);
-        // rack_check();
+        rack_check();
         // cpuAttempt();
 
         // [ Debug ]
-        console.log(`Column : ${i}`);
-        console.log(ref_list);
-        console.log(column_a_indexes);
+        // console.log(`Column : ${i}`);
+        // console.log(ref_list);
+        // console.log(column_a_indexes);
     })
 }
 
 // [ Functions ] : In-Game
 function drop(entry_point){
     // [ Conditional ]
-    for (let i = 0; i < 4; i++){
-        if(entry_point == i && entry_points.length > 0){
-            let x = index_list[i].pop();
-            ref_list[x] = player_color[0];
-            rack.children[x].style.backgroundColor = player_color.toLowerCase();
+    if(!connect_four){
+        for (let i = 0; i < 4; i++){
+            if(entry_point == i && entry_points.length > 0){
+                let a = column_list[i][column_list[i].length-1];
+                let current_row = row_list[column_list[i].length-1];
+                current_row.shift();
+                let x = column_list[entry_point].pop();
+
+                ref_list[x] = player_color[0];
+                column_check[i] += player_color[0];
+                row_check[column_list[i].length] += player_color[0];
+                rack.children[x].style.backgroundColor = player_color.toLowerCase();
+
+                // [ Debug ]
+                console.log(`you dropped coin in column ${entry_point}`);
+                // console.log(column_list);
+                // console.log(current_row); // Current row 
+                // console.log(a);
+            }
         }
+    } else {
+        return;
     }
 
-    // [ Debug ]
-    console.log(`you dropped coin in column ${entry_point}`);
+
+    // console.log(`Columns : ${column_check}`);
+    // console.log(`Rows : ${row_check}`);
 }   // ( Currently Working )
 
 function rack_check(){
     // [ Variables ]
-    let first_column = [];
-    let second_column = [];
-    let third_column = [];
-    let fouth_column = [];
-    let first_row = [];
-    let second_row = [];
-    let third_row = [];
-    let fourth_row = [];
-    let first_diagonal = [];
-    let second_diagonal = [];
-
     let red_streak = "RRRR";
     let gold_streak = "GGGG";
+
+    // [ Conditional ] : rack is full && no connect_four
+    if(entry_points.length <= 0 && !connect_four){
+        game_over = true;
+        console.log("GAME OVER");
+    }
+    // [ Conditional ] : rack isn't full && connect_four
+    if(connect_four){
+        console.log("GAME OVER");
+        return; // Exit Function
+    }
+
+
+    // [ Loop ] : Entry Point Check
+    for(let i = 0; i < 4; i++){
+        // [ Conditon ] 
+        if(column_list[i].length <= 0){
+            entry_points = entry_points.filter((index) => index != i)
+        }
+    }
+    // [ Loop ] : Rows & Columns Check
+    for (let i = 0; i < 4; i++){
+        // [ Conditional ] : columns 
+        if(column_check[i] === red_streak || column_check[i] === gold_streak){
+            connect_four = true;
+            console.log("!!!! CONNECT FOUR !!!!");
+        }
+        // [ Conditional ] : rows
+        if(row_check[i] === red_streak || row_check[i] === gold_streak){
+            connect_four = true;
+            console.log("!!!! CONNECT FOUR !!!!");
+        }
+    }
 }   // To be addressed
 
 function cpuAttempt(){
