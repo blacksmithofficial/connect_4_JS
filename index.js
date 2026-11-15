@@ -54,6 +54,9 @@ let ref_list = ['','','','','','','','','','','','','','','',''];
 let connect_four = false;
 let game_over = false;
 
+let player_wins = 0;
+let cpu_wins = 0;
+
 // [ System ] : In-Game EventListeners
 for(let i = 0; i < 4; i++){
     rack.children[i].addEventListener("click", () => {
@@ -94,16 +97,23 @@ function drop(entry_point){
     } else {
         return;
     }
-
-
     // console.log(`Columns : ${column_check}`);
     // console.log(`Rows : ${row_check}`);
-}   // ( Currently Working )
+}   // ( Finished )
 
 function rack_check(){
     // [ Variables ]
     let red_streak = "RRRR";
     let gold_streak = "GGGG";
+
+    let player_streak = "";
+    let cpu_streak = "";
+
+    // [ Loop ] : Initialize Player Streaks
+    for (let i = 0; i < 4; i++){
+        player_streak += player_color[0];
+        cpu_streak += cpu_color[0];
+    }
 
     // [ Conditional ] : rack is full && no connect_four
     if(entry_points.length <= 0 && !connect_four){
@@ -129,15 +139,41 @@ function rack_check(){
         // [ Conditional ] : columns 
         if(column_check[i] === red_streak || column_check[i] === gold_streak){
             connect_four = true;
+            // [ Conditional ] : Winner / Loser Condition
+            if(player_streak === red_streak || player_streak === gold_streak){
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                return; // Exit Function
+            }
+            if(cpu_streak == red_streak || cpu_streak === gold_streak){
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                return; // Exit Function
+            }
             console.log("!!!! CONNECT FOUR !!!!");
         }
         // [ Conditional ] : rows
         if(row_check[i] === red_streak || row_check[i] === gold_streak){
             connect_four = true;
+            // [ Conditional ] : Winner / Loser Condition
+            if(player_streak === red_streak || player_streak === gold_streak){
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                return; // Exit Function
+            }
+            if(cpu_streak == red_streak || cpu_streak === gold_streak){
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                return; // Exit Function
+            }
             console.log("!!!! CONNECT FOUR !!!!");
         }
     }
-}   // To be addressed
+
+    // [ Debug ]
+    console.log(`player_streak : ${player_streak}`);
+    console.log(`cpu_streak : ${cpu_streak}`);
+}   // ( Currently Working )
 
 function cpuAttempt(){
     // [ Variables ]
