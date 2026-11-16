@@ -50,7 +50,8 @@ let diagonal_list = [[0,5,10,15], [3,6,9,12]];
 let column_check = ["", "", "", ""];
 let row_check = ["", "", "", ""];
 let diagonal_check = ["", ""];
-let ref_list = [];
+let ref_list = ['','','','','','','','','','','','','','','',''];
+let ref_count = 0;
 let connect_four = false;
 let game_over = false;
 let player_wins = 0;
@@ -66,6 +67,15 @@ for(let i = 0; i < 4; i++){
     })
 }
 
+// Column List : [[0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15]]   
+// Row List : [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15]]
+/*
+    [ 0  1  2  3 ]
+    [ 4  5  6  7 ]
+    [ 8  9  10 11]
+    [ 12 13 14 15]
+ */
+
 // [ Functions ] : In-Game
 function drop(column, color){
     // [ Conditional ]
@@ -80,12 +90,16 @@ function drop(column, color){
             if(column == entry_point && column_check[entry_point].length < 4){
                 // [ Second Implementation ]
                 rack.children[current_location].style.backgroundColor = color.toLowerCase();
-                column_check[entry_point] += color[0];
-                ref_list.push(color[0]);
+                column_check[entry_point] += color[0];  // ( Update Columns )
+                // row_check[] += color[0]; // ( Update Rows )
+                ref_list[current_location] = color[0];
+                ref_count++;
                 column_copy[entry_point].pop();
                 rack_check(column_check);
-                
+
                 // [ Debug ]
+                // console.log(`column_check : ${column_check}`);
+                // console.log(`row_check : ${row_check}`);
                 // console.log(`player column select : ${current_column[0]}`);
                 // console.log(`current pos: ${current_location}`);
                 // console.log(`current column len : ${column_length}`);
@@ -95,12 +109,82 @@ function drop(column, color){
                 // console.log(column_copy);
             }
         }
+
+
+        // ( Update Rows )
+        row_scan();
+        // let red_count = 0;
+        // let gold_count = 0;
+        // // [ Loop ]
+        // for(let i = 0; i < 4; i++){
+        //     if(ref_list[i] === 'R'){
+        //         red_count++;
+        //     }
+        //     if(ref_list[i] === 'G'){
+        //         gold_count++;
+        //     }
+
+        //     // [ Conditional ]
+        //     if(red_count === 4 || gold_count === 4){
+        //         window.alert("STREAK DETECTED");
+        //     }
+        // }
+        // red_count = 0;
+        // gold_count = 0;
+        // for(let i = 4; i < 8; i++){
+        //     if(ref_list[i] === 'R'){
+        //         red_count++;
+        //     }
+        //     if(ref_list[i] === 'G'){
+        //         gold_count++;
+        //     }
+            
+        //     // [ Conditional ]
+        //     if(red_count === 4 || gold_count === 4){
+        //         window.alert("STREAK DETECTED");
+        //     }
+        // }
+        // red_count = 0;
+        // gold_count = 0;
+        // for(let i = 8; i < 12; i++){
+        //     if(ref_list[i] === 'R'){
+        //         red_count++;
+        //     }
+        //     if(ref_list[i] === 'G'){
+        //         gold_count++;
+        //     }
+        //     // [ Conditional ]
+        //     if(red_count === 4 || gold_count === 4){
+        //         window.alert("STREAK DETECTED");
+        //     }
+        // }
+        // red_count = 0;
+        // gold_count = 0;
+        // for(let i = 12; i < 16; i++){
+        //     if(ref_list[i] === 'R'){
+        //         red_count++;
+        //     }
+        //     if(ref_list[i] === 'G'){
+        //         gold_count++;
+        //     }
+        //     // [ Conditional ]
+        //     if(red_count === 4 || gold_count === 4){
+        //         window.alert("STREAK DETECTED");
+        //     }
+        // }
+
+        // console.log(`red_count : ${red_count}`);
+        // console.log(`gold_count : ${gold_count}`);
+
+        // ( Update Diagonals )
+
     } else {
         return;
     }
 
-    console.log(`game_over : ${game_over}`);
-    console.log(ref_list.length);
+    // console.log(`game_over : ${game_over}`);
+    // console.log(ref_count);
+    // console.log(ref_list);
     // console.log(`Columns : ${column_check}`);
     // console.log(`Rows : ${row_check}`);
 }   // ( Currently  )
@@ -117,9 +201,8 @@ function rack_check(list){
         player_streak += player_color[0];
         cpu_streak += cpu_color[0];
     }
-
-    // [ Conditional ] 
-    if(ref_list.length >= 16){
+    // [ Conditional ] xxxx
+    if(ref_count >= 16){
         game_over = true;
         console.log("DRAW");
         return; // Exit Function
@@ -131,7 +214,6 @@ function rack_check(list){
         return; // Exit Function
     }
 
-
     // [ Loop ] : Entry Point Check
     for(let i = 0; i < 4; i++){
         // [ Condition ] 
@@ -139,7 +221,7 @@ function rack_check(list){
             entry_points = entry_points.filter((index) => index != i)
         }
     }
-    // [ Loop ] : Rows & Columns Check
+    // [ Loop ] : Columns Check
     for (let i = 0; i < 4; i++){
         // [ Conditional ] : columns 
         if(column_check[i] === red_streak || column_check[i] === gold_streak){
@@ -157,23 +239,25 @@ function rack_check(list){
             }
             console.log("!!!! CONNECT FOUR !!!!");
         }
+
         // [ Conditional ] : rows
-        if(row_check[i] === red_streak || row_check[i] === gold_streak){
-            connect_four = true;
-            // [ Conditional ] : Winner / Loser Condition
-            if(player_streak === red_streak || player_streak === gold_streak){
-                console.log("PLAYER VICTORY");
-                console.log("CPU DEFEAT");
-                return; // Exit Function
-            }
-            if(cpu_streak == red_streak || cpu_streak === gold_streak){
-                console.log("CPU VICTORY");
-                console.log("PLAYER DEFEAT");
-                return; // Exit Function
-            }
-            console.log("!!!! CONNECT FOUR !!!!");
-        }
+        // if(row_check[i] === red_streak || row_check[i] === gold_streak){
+        //     connect_four = true;
+        //     // [ Conditional ] : Winner / Loser Condition
+        //     if(player_streak === red_streak || player_streak === gold_streak){
+        //         console.log("PLAYER VICTORY");
+        //         console.log("CPU DEFEAT");
+        //         return; // Exit Function
+        //     }
+        //     if(cpu_streak == red_streak || cpu_streak === gold_streak){
+        //         console.log("CPU VICTORY");
+        //         console.log("PLAYER DEFEAT");
+        //         return; // Exit Function
+        //     }
+        //     console.log("!!!! CONNECT FOUR !!!!");
+        // }
     }
+
 
     // [ Debug ]
     // console.log(`game_over : ${game_over}`);
@@ -182,7 +266,124 @@ function rack_check(list){
     // console.log(`cpu_streak : ${cpu_streak}`);
 }   // ( Finished )
 
+function row_scan(){
+        // ( Scan Rows )
+        let red_count = 0;
+        let gold_count = 0;
 
+        // [ Loop ]
+        for(let i = 0; i < 4; i++){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            }
+            if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+
+            // [ Conditional ]
+            if(red_count === 4 || gold_count === 4){
+                connect_four = true;
+                game_over = true;
+                // [ Condition ]
+                if(player_color[0] === 'R' || player_color[0] === 'G'){
+                    console.log("PLAYER VICTORY");
+                    console.log("CPU DEFEAT");
+                    return; // Exit Function
+                }
+                if(cpu_color[0] === 'R' || cpu_color[0] === 'G'){
+                    console.log("CPU VICTORY");
+                    console.log("PLAYER DEFEAT");
+                    return; // Exit Function
+                }
+            }
+        }
+        // set_zero(red_count, gold_count);
+        red_count = 0;
+        gold_count = 0;
+        for(let i = 4; i < 8; i++){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            }
+            if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+            
+            // [ Conditional ]
+            if(red_count === 4 || gold_count === 4){
+                connect_four = true;
+                game_over = true;
+                // [ Condition ]
+                if(player_color[0] === 'R' || player_color[0] === 'G'){
+                    console.log("PLAYER VICTORY");
+                    console.log("CPU DEFEAT");
+                    return; // Exit Function
+                }
+                if(cpu_color[0] === 'R' || cpu_color[0] === 'G'){
+                    console.log("CPU VICTORY");
+                    console.log("PLAYER DEFEAT");
+                    return; // Exit Function
+                }
+            }
+        }
+        // set_zero(red_count, gold_count);
+        red_count = 0;
+        gold_count = 0;
+        for(let i = 8; i < 12; i++){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            }
+            if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+            // [ Conditional ]
+            if(red_count === 4 || gold_count === 4){
+                connect_four = true;
+                game_over = true;
+                // [ Condition ]
+                if(player_color[0] === 'R' || player_color[0] === 'G'){
+                    console.log("PLAYER VICTORY");
+                    console.log("CPU DEFEAT");
+                    return; // Exit Function
+                }
+                if(cpu_color[0] === 'R' || cpu_color[0] === 'G'){
+                    console.log("CPU VICTORY");
+                    console.log("PLAYER DEFEAT");
+                    return; // Exit Function
+                }
+            }
+        }
+        // set_zero(red_count, gold_count);
+        red_count = 0;
+        gold_count = 0;
+        for(let i = 12; i < 16; i++){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            }
+            if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+            // [ Conditional ]
+            if(red_count === 4 || gold_count === 4){
+                connect_four = true;
+                game_over = true;
+                // [ Condition ]
+                if(player_color[0] === 'R' || player_color[0] === 'G'){
+                    console.log("PLAYER VICTORY");
+                    console.log("CPU DEFEAT");
+                    return; // Exit Function
+                }
+                if(cpu_color[0] === 'R' || cpu_color[0] === 'G'){
+                    console.log("CPU VICTORY");
+                    console.log("PLAYER DEFEAT");
+                    return; // Exit Function
+                }
+            }
+        }
+}
+function set_zero(num1, num2){
+    num1 = 0;
+    num2 = 0;
+}
 function cpuAttempt(){
     // [ Variables ]
     let column_select = Math.floor(Math.random(0, entry_points.length) * entry_points.length);
