@@ -386,6 +386,8 @@ function reset(){
         game.style.display = "none";
         start_menu.style.display = "flex";
         phase_0.style.display = "flex";
+        phase_1.style.display = "none";
+        phase_2.style.display = "none";
 
     })
 
