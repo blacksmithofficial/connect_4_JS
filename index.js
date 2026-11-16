@@ -109,84 +109,14 @@ function drop(column, color){
                 // console.log(column_copy);
             }
         }
-
-
         // ( Update Rows )
         row_scan();
-        // let red_count = 0;
-        // let gold_count = 0;
-        // // [ Loop ]
-        // for(let i = 0; i < 4; i++){
-        //     if(ref_list[i] === 'R'){
-        //         red_count++;
-        //     }
-        //     if(ref_list[i] === 'G'){
-        //         gold_count++;
-        //     }
-
-        //     // [ Conditional ]
-        //     if(red_count === 4 || gold_count === 4){
-        //         window.alert("STREAK DETECTED");
-        //     }
-        // }
-        // red_count = 0;
-        // gold_count = 0;
-        // for(let i = 4; i < 8; i++){
-        //     if(ref_list[i] === 'R'){
-        //         red_count++;
-        //     }
-        //     if(ref_list[i] === 'G'){
-        //         gold_count++;
-        //     }
-            
-        //     // [ Conditional ]
-        //     if(red_count === 4 || gold_count === 4){
-        //         window.alert("STREAK DETECTED");
-        //     }
-        // }
-        // red_count = 0;
-        // gold_count = 0;
-        // for(let i = 8; i < 12; i++){
-        //     if(ref_list[i] === 'R'){
-        //         red_count++;
-        //     }
-        //     if(ref_list[i] === 'G'){
-        //         gold_count++;
-        //     }
-        //     // [ Conditional ]
-        //     if(red_count === 4 || gold_count === 4){
-        //         window.alert("STREAK DETECTED");
-        //     }
-        // }
-        // red_count = 0;
-        // gold_count = 0;
-        // for(let i = 12; i < 16; i++){
-        //     if(ref_list[i] === 'R'){
-        //         red_count++;
-        //     }
-        //     if(ref_list[i] === 'G'){
-        //         gold_count++;
-        //     }
-        //     // [ Conditional ]
-        //     if(red_count === 4 || gold_count === 4){
-        //         window.alert("STREAK DETECTED");
-        //     }
-        // }
-
-        // console.log(`red_count : ${red_count}`);
-        // console.log(`gold_count : ${gold_count}`);
-
         // ( Update Diagonals )
 
     } else {
         return;
     }
 
-    // console.log(`game_over : ${game_over}`);
-    // console.log(ref_count);
-    // console.log(ref_list);
-    // console.log(`Columns : ${column_check}`);
-    // console.log(`Rows : ${row_check}`);
 }   // ( Currently  )
 
 function rack_check(list){
@@ -239,26 +169,7 @@ function rack_check(list){
             }
             console.log("!!!! CONNECT FOUR !!!!");
         }
-
-        // [ Conditional ] : rows
-        // if(row_check[i] === red_streak || row_check[i] === gold_streak){
-        //     connect_four = true;
-        //     // [ Conditional ] : Winner / Loser Condition
-        //     if(player_streak === red_streak || player_streak === gold_streak){
-        //         console.log("PLAYER VICTORY");
-        //         console.log("CPU DEFEAT");
-        //         return; // Exit Function
-        //     }
-        //     if(cpu_streak == red_streak || cpu_streak === gold_streak){
-        //         console.log("CPU VICTORY");
-        //         console.log("PLAYER DEFEAT");
-        //         return; // Exit Function
-        //     }
-        //     console.log("!!!! CONNECT FOUR !!!!");
-        // }
     }
-
-
     // [ Debug ]
     // console.log(`game_over : ${game_over}`);
     // console.log(entry_points);
@@ -279,7 +190,6 @@ function row_scan(){
             if(ref_list[i] === 'G'){
                 gold_count++;
             }
-
             // [ Conditional ]
             if(red_count === 4 || gold_count === 4){
                 connect_four = true;
@@ -297,7 +207,7 @@ function row_scan(){
                 }
             }
         }
-        // set_zero(red_count, gold_count);
+
         red_count = 0;
         gold_count = 0;
         for(let i = 4; i < 8; i++){
@@ -325,7 +235,7 @@ function row_scan(){
                 }
             }
         }
-        // set_zero(red_count, gold_count);
+
         red_count = 0;
         gold_count = 0;
         for(let i = 8; i < 12; i++){
@@ -352,7 +262,7 @@ function row_scan(){
                 }
             }
         }
-        // set_zero(red_count, gold_count);
+
         red_count = 0;
         gold_count = 0;
         for(let i = 12; i < 16; i++){
@@ -379,10 +289,6 @@ function row_scan(){
                 }
             }
         }
-}
-function set_zero(num1, num2){
-    num1 = 0;
-    num2 = 0;
 }
 function cpuAttempt(){
     // [ Variables ]
