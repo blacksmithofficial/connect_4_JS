@@ -2,11 +2,13 @@
 
 // [ Variables ]
 const start_menu = document.getElementById("start_menu");
+const finish_menu = document.getElementById("finish_menu");
 const phase_0 = document.getElementById("phase_0");
 const phase_1 = document.getElementById("phase_1");     // User Input
 const phase_2 = document.getElementById("phase_2");     // Color Select
 const game = document.getElementById("game");
 const container = document.getElementById("container");
+const game_result = document.getElementById("game_result");
 
 const start_button = document.getElementById("start_button");
 const phase_1_button = document.getElementById("phase_1_button");
@@ -14,6 +16,9 @@ const red = document.getElementById("red");
 const gold = document.getElementById("gold");
 
 const rack = document.getElementById("rack");
+
+const play_again = document.getElementById("play_again");
+const exit_game = document.getElementById("exit_game");
 
 // [ Variables ] : Set-Up
 let player_color, cpu_color;
@@ -67,15 +72,6 @@ for(let i = 0; i < 4; i++){
     })
 }
 
-// Column List : [[0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15]]   
-// Row List : [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15]]
-/*
-    [ 0  1  2   3 ]
-    [ 4  5  6   7 ]
-    [ 8  9  10  11]
-    [12  13  14 15]
- */
-
 // [ Functions ] : In-Game
 function drop(column, color){
     // [ Conditional ]
@@ -91,22 +87,10 @@ function drop(column, color){
                 // [ Second Implementation ]
                 rack.children[current_location].style.backgroundColor = color.toLowerCase();
                 column_check[entry_point] += color[0];  // ( Update Columns )
-                // row_check[] += color[0]; // ( Update Rows )
                 ref_list[current_location] = color[0];
                 ref_count++;
                 column_copy[entry_point].pop();
                 rack_check(column_check);
-
-                // [ Debug ]
-                // console.log(`column_check : ${column_check}`);
-                // console.log(`row_check : ${row_check}`);
-                // console.log(`player column select : ${current_column[0]}`);
-                // console.log(`current pos: ${current_location}`);
-                // console.log(`current column len : ${column_length}`);
-                // console.log(`available spaces : ${available_spaces}`);
-                // console.log(`available columns : ${available_columns}`);
-                // console.log(list);
-                // console.log(column_copy);
             }
         }
         // ( Update Rows )
@@ -118,8 +102,7 @@ function drop(column, color){
         return;
     }
 
-}   // ( Currently  )
-
+}   // ( Finished )
 function rack_check(list){
     // [ Variables ]
     let red_streak = "RRRR";
@@ -132,16 +115,19 @@ function rack_check(list){
         player_streak += player_color[0];
         cpu_streak += cpu_color[0];
     }
-    // [ Conditional ] xxxx
+    // [ Conditional ] 
     if(ref_count >= 16){
         game_over = true;
+        game_result.innerHTML = "! DRAW !";
         console.log("DRAW");
+        reset();
         return; // Exit Function
     }
     // [ Conditional ] : rack isn't full && connect_four
     if(connect_four){
         game_over = true;
         console.log("GAME OVER");
+        reset();
         return; // Exit Function
     }
 
@@ -162,24 +148,24 @@ function rack_check(list){
                 console.log("PLAYER VICTORY");
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
+                finish_menu.style.borderColor = player_color.toLowerCase();
+                game_result.innerHTML = "! Player VICTORY !";
+                reset();
                 return; // Exit Function
             }
             if(cpu_streak == red_streak || cpu_streak === gold_streak){
                 console.log("CPU VICTORY");
                 console.log("PLAYER DEFEAT");
                 container.style.backgroundColor = cpu_color.toLowerCase();
+                finish_menu.style.borderColor = cpu_color.toLowerCase();
+                game_result.innerHTML = "! CPU VICTORY !";
+                reset();
                 return; // Exit Function
             }
             console.log("!!!! CONNECT FOUR !!!!");
         }
     }
-    // [ Debug ]
-    // console.log(`game_over : ${game_over}`);
-    // console.log(entry_points);
-    // console.log(`player_streak : ${player_streak}`);
-    // console.log(`cpu_streak : ${cpu_streak}`);
 }   // ( Finished )
-
 function row_scan(){
     if(ref_count < 16 && !connect_four){
         // ( Scan Rows )
@@ -189,7 +175,7 @@ function row_scan(){
             for (let j = i; j < i+4; j++){
                 if(ref_list[j] === 'R'){
                     red_count++;
-                }else if (ref_list[j] === 'G'){
+                } else if (ref_list[j] === 'G'){
                     gold_count++;
                 }
 
@@ -199,13 +185,37 @@ function row_scan(){
                     console.log("PLAYER VICTORY");
                     console.log("CPU DEFEAT");
                     container.style.backgroundColor = player_color.toLowerCase();
+                    finish_menu.style.borderColor = player_color.toLowerCase();
+                    game_result.innerHTML = "! PLAYER VICTORY !";
+                    reset();
                     return; // Exit Function                    
-                } else if ( gold_count === 4 && cpu_color[0] === 'G'){
+                } else if (gold_count === 4 && player_color[0] === 'G') {
+                    connect_four = true;
+                    console.log("PLAYER VICTORY");
+                    console.log("CPU DEFEAT");
+                    container.style.backgroundColor = player_color.toLowerCase();
+                    finish_menu.style.borderColor = player_color.toLowerCase();
+                    game_result.innerHTML = "! PLAYER VICTORY !";
+                    reset();
+                    return; // Exit Function 
+                } else if (gold_count === 4 && cpu_color[0] === 'G'){
                     connect_four = true;
                     console.log("CPU VICTORY");
                     console.log("PLAYER DEFEAT");
                     container.style.backgroundColor = cpu_color.toLowerCase();
+                    finish_menu.style.borderColor = cpu_color.toLowerCase();
+                    game_result.innerHTML = "! CPU VICTORY !";
+                    reset();
                     return; // Exit Function
+                } else if (red_count === 4 && cpu_color[0] === 'R'){
+                    connect_four = true;
+                    console.log("CPU VICTORY");
+                    console.log("PLAYER DEFEAT");
+                    container.style.backgroundColor = cpu_color.toLowerCase();
+                    finish_menu.style.borderColor = cpu_color.toLowerCase();
+                    game_result.innerHTML = "! CPU VICTORY !";
+                    reset();
+                    return; // Exit Function                    
                 }
             }
         }
@@ -229,24 +239,36 @@ function diagonal_scan(){
                 console.log("PLAYER VICTORY");
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
+                finish_menu.style.borderColor = player_color.toLowerCase();
+                game_result.innerHTML = "! PLAYER VICTORY !";
+                reset();
                 return; // Exit Function                    
             } else if (gold_count === 4 && player_color[0] === 'G'){
                 connect_four = true;
                 console.log("PLAYER VICTORY");
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
+                finish_menu.style.borderColor = player_color.toLowerCase();
+                game_result.innerHTML = "! PLAYER VICTORY !";
+                reset();
                 return; // Exit Function
             } else if (red_count === 4 && cpu_color[0] === 'R'){
                 connect_four = true;
                 console.log("CPU VICTORY");
                 console.log("PLAYER DEFEAT");
                 container.style.backgroundColor = cpu_color.toLowerCase();
+                finish_menu.style.borderColor = cpu_color.toLowerCase();
+                game_result.innerHTML = "! CPU VICTORY !";
+                reset();
                 return; // Exit Function
             } else if (gold_count === 4 && cpu_color[0] === 'G'){
                 connect_four = true;
                 console.log("CPU VICTORY");
                 console.log("PLAYER DEFEAT");
                 container.style.backgroundColor = cpu_color.toLowerCase();
+                finish_menu.style.borderColor = cpu_color.toLowerCase();
+                game_result.innerHTML = "! CPU VICTORY !";
+                reset();
                 return; // Exit Function
             }
         }
@@ -268,24 +290,36 @@ function diagonal_scan(){
                 console.log("PLAYER VICTORY");
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
+                finish_menu.style.borderColor = player_color.toLowerCase();
+                game_result.innerHTML = "! PLAYER VICTORY !";
+                reset();
                 return; // Exit Function                    
             } else if (gold_count === 4 && player_color[0] === 'G'){
                 connect_four = true;
                 console.log("PLAYER VICTORY");
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
+                finish_menu.style.borderColor = player_color.toLowerCase();
+                game_result.innerHTML = "! PLAYER VICTORY !";
+                reset();
                 return; // Exit Function
             } else if (red_count === 4 && cpu_color[0] === 'R'){
                 connect_four = true;
                 console.log("CPU VICTORY");
                 console.log("PLAYER DEFEAT");
                 container.style.backgroundColor = cpu_color.toLowerCase();
+                finish_menu.style.borderColor = cpu_color.toLowerCase();
+                game_result.innerHTML = "! CPU VICTORY !";
+                reset();
                 return; // Exit Function
             } else if (gold_count === 4 && cpu_color[0] === 'G'){
                 connect_four = true;
                 console.log("CPU VICTORY");
                 console.log("PLAYER DEFEAT");
                 container.style.backgroundColor = cpu_color.toLowerCase();
+                finish_menu.style.borderColor = cpu_color.toLowerCase();
+                game_result.innerHTML = "! CPU VICTORY !";
+                reset();
                 return; // Exit Function
             }
         }
@@ -301,9 +335,55 @@ function cpuAttempt(){
     } else {
         return;
     }
+}   // ( Finished )
+function reset(){
+    // [ Display Finish Menu ]
+    finish_menu.style.display = "block";
+    finish_menu.style.position = "absolute";
+
+    // [Condition] : Play Again ?
+    play_again.addEventListener("click", () => {
+        console.log('Play Again...');
+
+        // [Reset Variables]
+        connect_four = false;
+        game_over = false;
+        column_copy = [[0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15]];
+        column_check = ["", "", "", ""];
+        ref_list = ['','','','','','','','','','','','','','','',''];
+        ref_count = 0;
+        container.style.backgroundColor = "white";
+
+        // [Clear Board]
+        for(let i = 0; i < 16; i++){
+            rack.children[i].style.backgroundColor = "";
+        }
+        finish_menu.style.display = "none";
+    })
+
+    exit_game.addEventListener("click", () => {
+        console.log(`End Game...`);
+
+        // [Reset Variables]
+        connect_four = false;
+        game_over = false;
+        column_copy = [[0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15]];
+        column_check = ["", "", "", ""];
+        ref_list = ['','','','','','','','','','','','','','','',''];
+        ref_count = 0;
+        container.style.backgroundColor = "white";
+
+        // [Clear Board]
+        for(let i = 0; i < 16; i++){
+            rack.children[i].style.backgroundColor = "";
+        }
+        finish_menu.style.display = "none";
+        game.style.display = "none";
+        start_menu.style.display = "flex";
+        phase_0.style.display = "flex";
+
+    })
 
     // [ Debug ]
-    // console.log(`cpu column select : ${column_select}`);
-    // console.log(column_copy);
-    // console.log(lists);
-}   // ( Finished )
+    console.log("reset()");
+}
