@@ -14,6 +14,7 @@ const start_button = document.getElementById("start_button");
 const phase_1_button = document.getElementById("phase_1_button");
 const red = document.getElementById("red");
 const gold = document.getElementById("gold");
+const user_name = document.getElementById("user_name");
 
 const rack = document.getElementById("rack");
 
@@ -22,6 +23,7 @@ const exit_game = document.getElementById("exit_game");
 
 // [ Variables ] : Set-Up
 let player_color, cpu_color;
+let player_name = "";
 
 // [ System ] : Event Listeners 
 start_button.addEventListener("click", () => {
@@ -29,6 +31,9 @@ start_button.addEventListener("click", () => {
     phase_1.style.display = "flex";
 })
 phase_1_button.addEventListener("click", () => {
+    // [ Update Player Name]
+    player_name = user_name.value;
+
     phase_1.style.display = "none";
     phase_2.style.display = "block";
 })
@@ -149,7 +154,7 @@ function rack_check(list){
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
                 finish_menu.style.borderColor = player_color.toLowerCase();
-                game_result.innerHTML = "! Player VICTORY !";
+                game_result.innerHTML = `! ${player_name} VICTORY !`;
                 reset();
                 return; // Exit Function
             }
@@ -186,7 +191,7 @@ function row_scan(){
                     console.log("CPU DEFEAT");
                     container.style.backgroundColor = player_color.toLowerCase();
                     finish_menu.style.borderColor = player_color.toLowerCase();
-                    game_result.innerHTML = "! PLAYER VICTORY !";
+                    game_result.innerHTML = `! ${player_name} VICTORY !`;
                     reset();
                     return; // Exit Function                    
                 } else if (gold_count === 4 && player_color[0] === 'G') {
@@ -195,7 +200,7 @@ function row_scan(){
                     console.log("CPU DEFEAT");
                     container.style.backgroundColor = player_color.toLowerCase();
                     finish_menu.style.borderColor = player_color.toLowerCase();
-                    game_result.innerHTML = "! PLAYER VICTORY !";
+                    game_result.innerHTML = `! ${player_name} VICTORY !`;
                     reset();
                     return; // Exit Function 
                 } else if (gold_count === 4 && cpu_color[0] === 'G'){
@@ -240,7 +245,7 @@ function diagonal_scan(){
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
                 finish_menu.style.borderColor = player_color.toLowerCase();
-                game_result.innerHTML = "! PLAYER VICTORY !";
+                game_result.innerHTML = `! ${player_name} VICTORY !`;
                 reset();
                 return; // Exit Function                    
             } else if (gold_count === 4 && player_color[0] === 'G'){
@@ -249,7 +254,7 @@ function diagonal_scan(){
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
                 finish_menu.style.borderColor = player_color.toLowerCase();
-                game_result.innerHTML = "! PLAYER VICTORY !";
+                game_result.innerHTML = `! ${player_name} VICTORY !`;
                 reset();
                 return; // Exit Function
             } else if (red_count === 4 && cpu_color[0] === 'R'){
@@ -291,7 +296,7 @@ function diagonal_scan(){
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
                 finish_menu.style.borderColor = player_color.toLowerCase();
-                game_result.innerHTML = "! PLAYER VICTORY !";
+                game_result.innerHTML = `! ${player_name} VICTORY !`;
                 reset();
                 return; // Exit Function                    
             } else if (gold_count === 4 && player_color[0] === 'G'){
@@ -300,7 +305,7 @@ function diagonal_scan(){
                 console.log("CPU DEFEAT");
                 container.style.backgroundColor = player_color.toLowerCase();
                 finish_menu.style.borderColor = player_color.toLowerCase();
-                game_result.innerHTML = "! PLAYER VICTORY !";
+                game_result.innerHTML = `! ${player_name} VICTORY !`;
                 reset();
                 return; // Exit Function
             } else if (red_count === 4 && cpu_color[0] === 'R'){
