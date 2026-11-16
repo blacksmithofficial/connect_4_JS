@@ -112,6 +112,7 @@ function drop(column, color){
         // ( Update Rows )
         row_scan();
         // ( Update Diagonals )
+        diagonal_scan();
 
     } else {
         return;
@@ -177,7 +178,7 @@ function rack_check(list){
     // console.log(entry_points);
     // console.log(`player_streak : ${player_streak}`);
     // console.log(`cpu_streak : ${cpu_streak}`);
-}   // ( Currently Working )
+}   // ( Finished )
 
 function row_scan(){
     if(ref_count < 16 && !connect_four){
@@ -209,10 +210,87 @@ function row_scan(){
             }
         }
     }
-}   // ( Currently Working )
+}   // ( Finished )
 function diagonal_scan(){
+    if(ref_count < 16 && !connect_four){
+        let red_count = 0;
+        let gold_count = 0;
 
-} // ( To Be Addressed )
+        // [ First Diagonal ]
+        for(let i = 0; i < 16; i += 5){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            } else if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+            // [ Conditional ]
+            if(red_count === 4 && player_color[0] === 'R'){
+                connect_four = true;
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                container.style.backgroundColor = player_color.toLowerCase();
+                return; // Exit Function                    
+            } else if (gold_count === 4 && player_color[0] === 'G'){
+                connect_four = true;
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                container.style.backgroundColor = player_color.toLowerCase();
+                return; // Exit Function
+            } else if (red_count === 4 && cpu_color[0] === 'R'){
+                connect_four = true;
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                container.style.backgroundColor = cpu_color.toLowerCase();
+                return; // Exit Function
+            } else if (gold_count === 4 && cpu_color[0] === 'G'){
+                connect_four = true;
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                container.style.backgroundColor = cpu_color.toLowerCase();
+                return; // Exit Function
+            }
+        }
+
+        // [ Reset Count ]
+        red_count = 0;
+        gold_count = 0;
+
+        // [ Second Diagonal ]
+        for(let i = 3; i < 15; i += 3){
+            if(ref_list[i] === 'R'){
+                red_count++;
+            } else if(ref_list[i] === 'G'){
+                gold_count++;
+            }
+            // [ Conditional ]
+            if(red_count === 4 && player_color[0] === 'R'){
+                connect_four = true;
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                container.style.backgroundColor = player_color.toLowerCase();
+                return; // Exit Function                    
+            } else if (gold_count === 4 && player_color[0] === 'G'){
+                connect_four = true;
+                console.log("PLAYER VICTORY");
+                console.log("CPU DEFEAT");
+                container.style.backgroundColor = player_color.toLowerCase();
+                return; // Exit Function
+            } else if (red_count === 4 && cpu_color[0] === 'R'){
+                connect_four = true;
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                container.style.backgroundColor = cpu_color.toLowerCase();
+                return; // Exit Function
+            } else if (gold_count === 4 && cpu_color[0] === 'G'){
+                connect_four = true;
+                console.log("CPU VICTORY");
+                console.log("PLAYER DEFEAT");
+                container.style.backgroundColor = cpu_color.toLowerCase();
+                return; // Exit Function
+            }
+        }
+    }
+} // ( Finished )
 function cpuAttempt(){
     // [ Variables ]
     let column_select = Math.floor(Math.random(0, entry_points.length) * entry_points.length);
